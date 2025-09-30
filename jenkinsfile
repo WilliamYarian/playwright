@@ -1,0 +1,41 @@
+pipeline {
+  agent any
+
+  stages{
+      stage("Clonar repositorio"){
+          steps{
+              git(
+                  url:"https://github.com/WilliamYarian/playwright.git",
+                  credentialsId: 'prueba/jenkins/testarudo',
+                  branch: 'main'
+                  )
+          }
+      }
+      stage("Instalar dependencias"){
+          steps{
+              bat 'npm install --force'
+              bat 'npx playwright install'
+          }
+      }
+      stage("Ejecutar pruebas"){
+          steps{
+              bat 'npx playwright test'
+          }
+      }
+       stage('Publicar Reporte') {
+            steps {
+                publishHTML(
+                    [
+                reportName: 'Playwright Report',
+                reportDir: 'playwright-report',
+                reportFiles: 'index.html',
+                keepAll: true,
+                alwaysLinkToLastBuild: true,
+                allowMissing: false
+            ]
+        )
+      }
+    }
+  }
+}
+
