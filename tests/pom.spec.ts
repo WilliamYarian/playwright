@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { HomePage } from ".../pageObjects/homePage";
+import { HomePage } from "../pageObjects/homePage";
 
 test.describe("Suite de tests (POM)", () => {
   test("Test input Iphone (search)", async ({ page }) => {
